@@ -4,7 +4,7 @@ from django.views.generic import ListView
 from diary.forms import MemoryForm, ImgForm
 from .models import Memory
 from diary.forms import MemoryForm, KeywordForm
-from diary.models import KeywordPost, Memory, ImageFields
+from diary.models import KeywordPost, Memory, ImageFields, FinImg
 
 #데이터 연동
 import pymysql
@@ -89,13 +89,27 @@ def memory_new(request):
 
             try:
                 with conn.cursor() as curs:
+                    emotions = {
+                        '쾌활': 'Cheerful',
+                        '기쁨': 'Happy',
+                        '보통': 'Neutral',
+                        '우울': 'Depressed',
+                        '화남': 'Angry'
+                       }
+                    drawings ={
+                        '디지털 아트': 'Digital Art',
+                       '유화': 'Oil and Canvas',
+                       '스케치': 'Sketched',
+                       '인상주의': 'Impressionism',
+                       'MZ세대 스타일':'Vaper Wave',
+                    }
                     sql = "SELECT * FROM diary_memory ORDER BY created_at DESC"
                     curs.execute(sql) # 실행할 쿼리분 넣기
                     rs = curs.fetchall() #sql문 실행해서 데이터 가져오기
                     # print(rs)  # 쿼리문 출력해보기
                     main_cont = rs[0][1]
-                    drawing = rs[0][4]
-                    emotion = rs[0][5]
+                    drawing = drawings[rs[0][4]]
+                    emotion = emotions[rs[0][5]]
 
             finally:
                 conn.close()
@@ -193,19 +207,55 @@ def memory_new(request):
                 end = (time.time() - start)
                 print(end)
 
-                return redirect('/diary/select/')
+                save_db = ImageFields(keywords=kor_keywords)
+                save_db.save()
+
+
+
+                
 
 
             
             # return redirect(f"/diary/{memory.pk}/")
             # return redirect(memory.get_absolute_url())
+            openai.api_key = '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'
 
+            #함수
+            response = openai.Image.create(
+                # 입력받은 키워드 입력
+                prompt = search_keyword,
+                
+                # 출력할 그림 개수
+                n = 4,
+
+                # 출력할 그림 사이즈
+                size = '256x256'
+            )
+
+            image_url_1 = response['data'][0]['url']
+            image_url_2 = response['data'][1]['url']
+            image_url_3 = response['data'][2]['url']
+            image_url_4 = response['data'][3]['url']
+
+            save_db.url1 = image_url_1
+            save_db.url2 = image_url_2
+            save_db.url3 = image_url_3
+            save_db.url4 = image_url_4
+            save_db.save()
+
+            end = (time.time() - start)
+            print(end)
+
+
+            return redirect('/diary/select/')
+            
+    
     else:
         form = MemoryForm()
 
     return render(request, "diary/memory_form.html", {
-        "form": form,
-    })
+            "form": form,
+        })
 
 
 
@@ -373,15 +423,32 @@ def image_extraction(request):
 
 
     return redirect('http://localhost:8000/diary/select/')
+
+import urllib.request
     
 
 def select(request):
     image_qs = ImageFields.objects.values().order_by('-id')[0]
+    print('='*10)
+    print(image_qs)
+    print('='*10)
+    number = image_qs['id']
 
     if request.method == "POST":
-        form = ImgForm(request.POST)
-        form.save()
 
+        url = request.POST['finImg']
+        filename = f'{number}.jpg'
+        path = f'do_it_django_prj/images/{filename}'
+        urllib.request.urlretrieve(url, path)
+
+        # resource = urllib.request.urlopen(url)
+        # output = open(filename,"wb")
+        # output.write(resource.read())
+        # output.close()
+
+        FinImg.objects.create(finImg=filename)
+#        form = ImgForm(request.POST)
+#        form.save()
 
         return redirect('http://localhost:8000/diary/gallery/')
     else:
@@ -396,6 +463,7 @@ def select(request):
 
 def memory_edit(request, pk):
     memory = Memory.objects.get(pk=pk)
+
 
     if request.method == "POST":
         form = MemoryForm(request.POST, instance=memory)

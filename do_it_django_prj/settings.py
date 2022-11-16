@@ -84,7 +84,18 @@ WSGI_APPLICATION = 'do_it_django_prj.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = my_settings.DATABASES
+# DATABASES = my_settings.DATABASES
+DATABASES = {
+    "default": {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Project_test', #2
+        'USER': 'admin', #3                    
+        'PASSWORD': 'admin',  #4              
+        'HOST': 'localhost',   #5                
+        'PORT': '3306', #6
+    }
+}
+
 
 
 # Password validation
@@ -123,7 +134,15 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [os.path.join('do_it_django_prj','static'),]
+# STATICFILES_DIRS = [os.path.join('do_it_django_prj','static'),]
+
+STATIC_DIRS =[
+    os.path.join(BASE_DIR, 'do_it_django_prj', 'static') 
+]
+
+#static 파일을 모을 디렉터리
+#static폴더에 static 파일을 모을 것임을 알려준다
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field 1type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

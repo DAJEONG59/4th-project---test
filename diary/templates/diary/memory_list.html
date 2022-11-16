@@ -37,12 +37,16 @@
 {% for p in memory_list %}
         <div class="col-md-4" >
           <div class="card mb-4 shadow-sm" style="text-align : center;">
-              {% if p.head_image %}
-              <a href="http://localhost:8000/diary/{{ p.pk }}/"><img src="{{ p.head_image.url }}" height="225" width="400"/></svg></a>
+            {% comment %} {% for keyword in keywords_list %} {% endcomment %}
+
+              {% if p.pk %}
+              <a href="http://localhost:8000/diary/{{ p.pk }}/"><img src="C:Users\euclid_edu23\workspace\1116\project_sh\do_it_django_prj\images\{{ p.pk }}.jpg" height="225" width="400"/></svg></a>
               {% else %}
               <a href="http://localhost:8000/diary/{{ p.pk }}/"><svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
               </a>
               {% endif %}
+            {% comment %} {% endfor %} {% endcomment %}
+
            <div class="card-body">
             {% for keyword in keywords_list %}
               {% if p.pk == keyword.pk %}

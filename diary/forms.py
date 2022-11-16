@@ -17,4 +17,4 @@ class KeywordForm(forms.ModelForm):
 class ImgForm(forms.ModelForm):
     class Meta:
         model = FinImg
-        fields = "__all__"
+        fields = ['finImg']

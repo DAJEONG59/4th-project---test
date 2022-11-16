@@ -92,7 +92,7 @@
  <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
   
 
-    <input type="radio" class="btn-check" name="Emotion" id="Cheerful" autocomplete="off" value="쾌활" {% if form.instance.pk %}{% if form.instance.Emotion == "쾌활" %} checked="" {% endif %}{% endif %}>
+    <input type="radio" class="btn-check" name="Emotion" id="Cheerful" autocomplete="off" checked="" value="쾌활" {% if form.instance.pk %}{% if form.instance.Emotion == "쾌활" %} checked="" {% endif %}{% endif %}>
     <label class="btn btn-outline-primary" for="Cheerful"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-xd" width="100" height="45" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
       <circle cx="12" cy="12" r="9"></circle>
@@ -152,7 +152,7 @@
   <label class="input-group-text" for="drawing_choices">화풍</label>
   <select class="form-select" id="drawing_choices" name ="Drawing">
     <option  value="디지털 아트" {% if form.instance.pk %}{% if form.instance.Drawing == "디지털 아트" %}selected{% endif %}{% endif %}> 디지털 아트</option>
-    <option value="요즘 스타일" {% if form.instance.pk %}{% if form.instance.Drawing == "요즘 스타일" %}selected{% endif %}{% endif %}>요즘 스타일</option>
+    <option value="요즘 스타일" {% if form.instance.pk %}{% if form.instance.Drawing == "MZ세대 스타일" %}selected{% endif %}{% endif %}> MZ세대 스타일</option>
     <option value="유화"{% if form.instance.pk %}{% if form.instance.Drawing == "유화" %}selected{% endif %}{% endif %}>유화</option>
     <option value="스케치"{% if form.instance.pk %}{% if form.instance.Drawing == "스케치" %}selected{% endif %}{% endif %}>스케치</option>
     <option value="인상주의"{% if form.instance.pk %}{% if form.instance.Drawing == "인상주의" %}selected{% endif %}{% endif %}>인상주의</option>
