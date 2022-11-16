@@ -2,42 +2,53 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-
-<div class ="container">
+<style>
+body {
+   background-color:#FFF0F0;
+}
+a:link {
+  color : black;
+}
+a:visited {
+  color : black;
+}
+a:hover {
+  color : black;
+}
+a:active {
+  color : black;
+}
+</style>
+<div class ="container" style="font-family: 'MaruBuri-Regular'";>
     <div class ="row">
         <div class ="col-12">
     <form action="" method="post" id="memory-form">
         {% csrf_token %}
-
-       <section class="mbr-section form1 cid-qv5ApHdm7c mbr-parallax-background" id="form1-4t" data-rv-view="10803">
+        <section class="mbr-section form1 cid-qv5ApHdm7c mbr-parallax-background" id="form1-4t" data-rv-view="10803">
 
     <div class="mbr-overlay" style="opacity: 0.7; background-color: rgb(239, 239, 239);">
     </div>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="title col-12 col-lg-8">
-                <h4>긴 글로 일기 쓰기</h4>
-                <h5 >
-                    오늘 하루 있었던 일을 편하게 써주세요
-                </h5>
+        <div class="row justify-content-center" style="text-align:center;">
+            <div class="title col-12">
+                <br/><h1><b>긴 글로 일기 쓰기</b></h1><br/>
+                <h3>
+                    <b>오늘 하루 있었던 일을 편하게 써주세요</b>
+                </h3>
             </div>
-
         </div>
-    </div>
+    </div><br/><br/>
     <div class="container">
         <div class="row justify-content-center">
             <div class="media-container-column col-lg-8" data-form-type="formoid">
-
-            {% if form.errors %}
+                                {% if form.errors %}
               <div class="alert alert-danger">
                 {{ form.errors }}
               </div>
             {% endif %}
-
-
                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-      <input type="radio" class="btn-check" name="Weather" id="Sunny" autocomplete="off" checked="" value="맑음" {% if form.instance.pk %}{% if form.instance.Weather == "맑음" %} checked="" {% endif %}{% endif %}>
-      <label class="btn btn-outline-primary" for="Sunny"> <span class="form-selectgroup-label"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
+      <input type="radio" class="btn-check" name="Weather" id="Sunny" autocomplete="off" value="맑음" checked=""{% if form.instance.pk %}{% if form.instance.Weather == "맑음" %} checked="" {% endif %}{% endif %}>
+      <label class="btn btn-outline-danger" for="Sunny"> <span class="form-selectgroup-label"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sun-high" width="100" height="40" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
           <path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z"></path>
@@ -54,8 +65,8 @@
 
       </label>
 
-      <input type="radio" class="btn-check" name="Weather" id="Cloudy" autocomplete="off" value="흐림"{% if form.instance.pk %}{% if form.instance.Weather == "흐림" %} checked="" {% endif %}{% endif %}>
-      <label class="btn btn-outline-primary" for="Cloudy">
+      <input type="radio" class="btn-check" name="Weather" id="Cloudy" autocomplete="off" value="흐림" {% if form.instance.pk %}{% if form.instance.Weather == "흐림" %} checked="" {% endif %}{% endif %}>
+      <label class="btn btn-outline-danger" for="Cloudy">
       <span class="form-selectgroup-label"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cloud" width="100" height="48" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -64,7 +75,7 @@
       </span></label>
 
       <input type="radio" class="btn-check" name="Weather" id="Rainy" autocomplete="off" value="비" {% if form.instance.pk %}{% if form.instance.Weather == "비" %} checked="" {% endif %}{% endif %}>
-      <label class="btn btn-outline-primary" for="Rainy"><span class="form-selectgroup-label"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
+      <label class="btn btn-outline-danger" for="Rainy"><span class="form-selectgroup-label"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-umbrella" width="100" height="48" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
           <path d="M4 12a8 8 0 0 1 16 0z"></path>
@@ -73,7 +84,7 @@
         </span></label>
 
       <input type="radio" class="btn-check" name="Weather" id="Snowy" autocomplete="off" value="눈" {% if form.instance.pk %}{% if form.instance.Weather == "눈" %} checked="" {% endif %}{% endif %}>
-      <label class="btn btn-outline-primary" for="Snowy">
+      <label class="btn btn-outline-danger" for="Snowy">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-snowman" width="100" height="50" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M12 3a4 4 0 0 1 2.906 6.75a6 6 0 1 1 -5.81 0a4 4 0 0 1 2.904 -6.75z"></path>
@@ -90,10 +101,10 @@
 
 
  <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-  
 
-    <input type="radio" class="btn-check" name="Emotion" id="Cheerful" autocomplete="off" checked="" value="쾌활" {% if form.instance.pk %}{% if form.instance.Emotion == "쾌활" %} checked="" {% endif %}{% endif %}>
-    <label class="btn btn-outline-primary" for="Cheerful"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-xd" width="100" height="45" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <input type="radio" class="btn-check" name="Emotion" id="Cheerful" autocomplete="off" value="쾌활" checked=""{% if form.instance.pk %}{% if form.instance.Emotion == "쾌활" %} checked="" {% endif %}{% endif %}>
+    <label class="btn btn-outline-danger" for="Cheerful"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-xd" width="100" height="45" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
       <circle cx="12" cy="12" r="9"></circle>
       <path d="M12 21a9 9 0 1 1 0 -18a9 9 0 0 1 0 18z"></path>
@@ -104,7 +115,7 @@
 
 
       <input type="radio" class="btn-check" name="Emotion" id="Happy" autocomplete="off" value="기쁨" {% if form.instance.pk %}{% if form.instance.Emotion == "기쁨" %} checked="" {% endif %}{% endif %}>
-      <label class="btn btn-outline-primary" for="Happy"><span class="form-selectgroup-label"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
+      <label class="btn btn-outline-danger" for="Happy"><span class="form-selectgroup-label"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-happy" width="100" height="45" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
           <circle cx="12" cy="12" r="9"></circle>
@@ -117,7 +128,7 @@
 
 
       <input type="radio" class="btn-check" name="Emotion" id="Neutral" autocomplete="off" value="보통" {% if form.instance.pk %}{% if form.instance.Emotion == "보통" %} checked="" {% endif %}{% endif %}>
-      <label class="btn btn-outline-primary" for="Neutral"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-empty" width="100" height="45" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <label class="btn btn-outline-danger" for="Neutral"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-empty" width="100" height="45" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <circle cx="12" cy="12" r="9"></circle>
         <line x1="9" y1="10" x2="9.01" y2="10"></line>
@@ -126,7 +137,7 @@
      </svg></label>
 
       <input type="radio" class="btn-check" name="Emotion" id="Depressed" autocomplete="off" value="우울" {% if form.instance.pk %}{% if form.instance.Emotion == "우울" %} checked="" {% endif %}{% endif %}>
-      <label class="btn btn-outline-primary" for="Depressed"><span class="form-selectgroup-label"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
+      <label class="btn btn-outline-danger" for="Depressed"><span class="form-selectgroup-label"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-sad" width="100" height="45" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
           <circle cx="12" cy="12" r="9"></circle>
@@ -137,7 +148,7 @@
         </span></label>
 
       <input type="radio" class="btn-check" name="Emotion" id="Angry" autocomplete="off" value="화남" {% if form.instance.pk %}{% if form.instance.Emotion == "화남" %} checked="" {% endif %}{% endif %}>
-      <label class="btn btn-outline-primary" for="Angry"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-angry" width="100" height="45" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <label class="btn btn-outline-danger" for="Angry"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mood-angry" width="100" height="45" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M12 21a9 9 0 1 1 0 -18a9 9 0 0 1 0 18z"></path>
         <path d="M8 9l2 1"></path>
@@ -149,47 +160,56 @@
                 <br/><br/>
     <!-- 화풍 선택 드롭다운 -->
         <div class="input-group mb-3">
-  <label class="input-group-text" for="drawing_choices">화풍</label>
-  <select class="form-select" id="drawing_choices" name ="Drawing">
-    <option value="디지털 아트" {% if form.instance.pk %}{% if form.instance.Drawing == "디지털 아트" %}selected{% endif %}{% endif %}> 디지털 아트</option>
-    <option value="요즘 스타일" {% if form.instance.pk %}{% if form.instance.Drawing == "MZ세대 스타일" %}selected{% endif %}{% endif %}> MZ세대 스타일</option>
-    <option value="유화"{% if form.instance.pk %}{% if form.instance.Drawing == "유화" %}selected{% endif %}{% endif %}>유화</option>
-    <option value="스케치"{% if form.instance.pk %}{% if form.instance.Drawing == "스케치" %}selected{% endif %}{% endif %}>스케치</option>
-    <option value="인상주의"{% if form.instance.pk %}{% if form.instance.Drawing == "인상주의" %}selected{% endif %}{% endif %}>인상주의</option>
+  <label class="input-group-text" for="drawing_choices" style="font-size:20px;"><b>그림에 적용할 화풍을 선택해주세요</b></label>
+  <select class="form-select" id="drawing_choices" name ="Drawing" style="font-size:20px;">
+    <option  value="디지털 아트" {% if form.instance.pk %}{% if form.instance.Drawing == "디지털 아트" %}selected{% endif %}{% endif %}><b3>디지털 아트</b3></option>
+    <option value="MZ세대 스타일" {% if form.instance.pk %}{% if form.instance.Drawing == "MZ세대 스타일" %}selected{% endif %}{% endif %}><b3>MZ세대 스타일</b3></option>
+    <option value="유화"{% if form.instance.pk %}{% if form.instance.Drawing == "유화" %}selected{% endif %}{% endif %}><b3>유화</b3></option>
+    <option value="스케치"{% if form.instance.pk %}{% if form.instance.Drawing == "스케치" %}selected{% endif %}{% endif %}><b3>스케치</b3></option>
+      <option value="인상주의"{% if form.instance.pk %}{% if form.instance.Drawing == "인상주의" %}selected{% endif %}{% endif %}><b3>인상주의</b3></option>
   </select>
-</div>
-<div class="text-danger">
+</div><br/>
+                <div class="text-danger">
 {{ form.Drawing.errors }}
 </div>
-
-                   <!-- <form class="mbr-form" action="https://mobirise.com/" method="post" data-form-title="Mobirise Form">
-                        <input type="hidden" data-form-email="true" value="6P93kNKo0YMrlhki4aqAh6kWEOLpuhFCYRe6n1FvaZgJ/pa39BUyHBYCW4WA4rZvUr5K4HMIOOmyetX9vVlNIOE3Nf/x57GRMvbDPtNT2dl1hbyF3plFTnLCQuB9fjD/">
-                        <div class="row row-sm-offset">
+                <div class="form-group" data-for="message">
+                    <label class="form-control-label mbr-fonts-style display-7" for="content" style="font-size:20px;"><b>아래 상자에 일기 내용을 적어주세요</b></label><br/>
+                            <br/><textarea type="text"
+                                      class="form-control"
+                                      name="content"
+                                      rows="6"
+                                      data-form-field="Message"
+                                      id="content"
+                            style="border: 4px solid rgb(255, 145, 130);
+                              border-radius: 8px;
+                              background-color: #f8f8f8;
+                              outline-color: #FE6B8B;
+                              padding: 5px 5px;
+                              font-size: 30px;
+                              resize: none;font-family: 'KyoboHandwriting2020A';" required
+                            >{% if form.instance.pk %}{{ form.instance.content}}{% endif %}</textarea>
                         </div>
-                        <br/>
-                        -->
-
-                        <div class="form-group" data-for="message">
-                            <label class="form-control-label mbr-fonts-style display-7" for="content">일기 내용</label><br/>
-                            <textarea type="text" class="form-control" name="content" rows="6" data-form-field="Message" id="content">{% if form.instance.pk %}{{ form.instance.content}}{% endif %}</textarea>
-                        </div>
-
-                        <span class="input-group-btn">
+                    <div class="container">
+                        <div class="col-12">
+                        <span class="input-group-btn" style="background-color:red">
                             <br/>
                             {% if not form.instance.pk %}
-                              <input type="submit" class="btn btn-primary btn-lg" value="자동생성" />
+                              <input type="submit" class="btn btn-danger btn-lg" value="그림 그리기" />
                             {% else %}
-                              <input type="submit" class="btn btn-primary btn-lg" value="수정" />
+                              <input type="submit" class="btn btn-danger btn-lg" value="수정"/>
                             {% endif %}
                         </span>
-                        
-</section>
-
-    </form>
+                        </div>
+                        </div>
+                </div>
+            </div>
         </div>
+            <br/>
+        </section>
+    </form>
+    </div>
     </div>
 </div>
-
 
 {# memory-form submit 이벤트 핸들러 #}
 
@@ -213,7 +233,7 @@
       </div>
       <div class="modal-body">
 
-        <img src="https://upload3.inven.co.kr/upload/2020/11/02/bbs/i015477759243.gif">
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="https://upload3.inven.co.kr/upload/2020/11/02/bbs/i015477759243.gif">
 
       </div>
     </div>

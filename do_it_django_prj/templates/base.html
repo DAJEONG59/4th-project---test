@@ -13,64 +13,71 @@
 
 </head>
     <style>
-
-    </style>
-    <style type="text/css">
-    footer {
-    width: 100%;
-    height: 5px; /* footer의 높이 */
-    bottom: 0;
-    left: 0;
-    body { color:#000000; }
-
-    </style>
-<body class="d-flex flex-column min-vh-100">
-
-<!-- header -->
-<!--<div class="container">-->
-    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom" style="background-color:#28E7FF	">
-        <i class="fa-regular fa-book-heart"></i>
-        <a href="http://localhost:8000/home/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-            &nbsp&nbsp&nbsp&nbsp<i class="far fa-edit"></i> &nbsp
-            <span class="fs-4">하루 그림</span>
-        </a>
-
-        <ul class="nav nav-pills">
-
-            <li class="nav-item"><a href="/diary/" class="nav-link">일기작성</a></li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                일기보기
+        @font-face {
+            font-family: 'KyoboHandwriting2020A';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2112@1.0/KyoboHandwriting2020A.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            }
+        
+        
+        @font-face {
+            font-family: 'MaruBuri-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/MaruBuri-Regular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        
+            </style>
+            <style type="text/css">
+            footer {
+            width: 100%;
+            height: 5px; /* footer의 높이 */
+            bottom: 0;
+            left: 0;
+            body { color:#000000; }
+            </style>
+        <body class="d-flex flex-column min-vh-100">
+        
+        <!-- header -->
+        <!--<div class="container">-->
+            <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom" style="background-color:#FFAAAA   ;font-size:1.5em;font-family:'MaruBuri-Regular';">
+                <a href="http://localhost:8000/home/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                    &nbsp&nbsp<div><img src="https://velog.velcdn.com/images/dj8527/post/16c0f706-cbd6-426f-ae6d-7b1a0f3a3c52/image.png" style="width:200px;height:50px;"></div>
                 </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/diary/gallery">갤러리</a>
-                    <li><a class="dropdown-item" href="/diary/calendar/">캘린더</a></li>
+        
+                <ul class="nav nav-pills">
+        
+                    <li class="nav-item" ><a href="/diary/" class="nav-link">일기작성</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        일기보기
+                        </a>
+                        <ul class="dropdown-menu" >
+                            <li><a class="dropdown-item" href="/diary/gallery">갤러리</a>
+                            <li><a class="dropdown-item" href="/diary/calendar/">캘린더</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a href="http://localhost:8000/diary/info/" class="nav-link">도움말</a></li>
+                    {% if not user.is_authenticated %}
+                        <li class="nav-item"><a href="/accounts/login/" class="nav-link">로그인</a></li>
+                    {% else %}
+                        <li class="nav-item"><a href="/accounts/logout/" class="nav-link">로그아웃</a></li>
+                    {% endif %}
                 </ul>
-            </li>
-            <li class="nav-item"><a href="http://localhost:8000/diary/info/" class="nav-link">도움말</a></li>
-            {% if not user.is_authenticated %}
-                <li class="nav-item"><a href="/accounts/login/" class="nav-link">로그인</a></li>
-            {% else %}
-                <li class="nav-item"><a href="/accounts/profile/" class="nav-link">회원정보</a></li>
-                <li class="nav-item"><a href="/accounts/logout/" class="nav-link">로그아웃</a></li>
-            {% endif %}
-        </ul>
-    </header>
-</div>
-
-    {% bootstrap_messages %}
-
-    {% block content %}{% endblock %}
-
-
-
-</body>
-<footer class="bg-light text-center text-lg-start mt-auto">
-  <!-- Copyright -->
-  <div class="text-center p-3" style="background-color: #79FFCE;">
-    © 2022. Haru Grim Co.
-  </div>
-  <!-- Copyright -->
-</footer>
-{% bootstrap_javascript %}
-</html>
+            </header>
+        </div>
+        
+            {% bootstrap_messages %}
+        
+            {% block content %}{% endblock %}
+        
+        </body>
+        <footer class="bg-light text-center text-lg-start mt-auto">
+          <!-- Copyright -->
+          <div class="text-center p-3" style="background-color:#FFDCDC;">
+            © 2022. Haru Grim Co.
+          </div>
+          <!-- Copyright -->
+        </footer>
+        {% bootstrap_javascript %}
+        </html>

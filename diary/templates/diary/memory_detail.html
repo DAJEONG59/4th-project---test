@@ -1,6 +1,24 @@
 {% extends "diary/base.html" %} {% block content %}
+<style>
+  a:link {
+    color : black;
+  }
+  a:visited {
+    color : black;
+  }
+  a:hover {
+    color : black;
+  }
+  a:active {
+    color : black;
+  }
+  body {
+          background-color:#FFF0F0;
+          }
+
+</style>
 <br />
-<div class="container">
+<div class="container" style="font-family: 'KyoboHandwriting2020A'";>
   <div class="col-md-12">
   <div class="">
     {% if memory.pk %}
@@ -14,9 +32,9 @@
       <div class="row">
         <div class="col-md-12" style="height: 500px; overflow-y: scroll;">
           <div class="card-block px-1">
-            <h5 class="card-title">{{ memory.created_at }}&nbsp;/&nbsp;{{memory.Emotion}}/&nbsp;{{memory.Weather}}</h5>
+            <h3 class="card-title"><br>{{ memory.created_at }}&nbsp;/&nbsp;{{memory.Emotion}}/&nbsp;{{memory.Weather}}</h3><hr/>
             <br />
-            <h3>{{ memory.content }}</h3>
+            <h2>{{ memory.content }}</h2>
             <br />
           </div>
         </div>
@@ -26,16 +44,16 @@
     <!-- End of card -->
     <hr />
 
-    <a class="btn btn-primary" href="/diary/{{ memory.pk }}/edit/" role="button"
+    <a class="btn btn-danger" href="/diary/{{ memory.pk }}/edit/" role="button" style="font-family: 'MaruBuri-Regular'";
       >수정</a
     >
     <a
-      class="btn btn-primary"
+      class="btn btn-danger"
       href="/diary/{{ memory.pk }}/delete/"
-      role="button"
+      role="button" style="font-family: 'MaruBuri-Regular'";
       >삭제</a
     >
-    <a class="btn btn-primary" href="/diary/gallery/" role="button"
+    <a class="btn btn-danger" href="/diary/gallery/" role="button" style="font-family: 'MaruBuri-Regular'";
       >갤러리로 가기</a
     >
   </div>
