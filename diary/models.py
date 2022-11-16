@@ -24,22 +24,23 @@ class Memory(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    weather_choices = {('Sunny', 'Sunny'),
-                       ('Cloudy', 'Cloudy'),
-                       ('Rainy', 'Rainy'),
-                       ('Snowy', 'Snowy')}
+    weather_choices = {('맑음','Sunny' ),
+                       ( '흐림','Cloudy'),
+                       ('비', 'Rainy'),
+                       ('눈', 'Snowy')}
 
-    drawing_choices = {('Digital Art', 'Digital Art'),
-                       ('Oil and Canvas', 'Oil and Canvas'),
-                       ('Sketched', 'Sketched'),
-                       ('Impressionism', 'Impressionism'),
-                       # ('','')
+    drawing_choices = {('디지털 아트', 'Digital Art'),
+                       ('유화', 'Oil and Canvas'),
+                       ('스케치', 'Sketched'),
+                       ('인상주의', 'Impressionism'),
+                       ('MZ세대 스타일','Vaper Wave'),
                        }
-    emotion_choices = {('Cheerful', 'Cheerful'),
-                       ('Happy', 'Happy'),
-                       ('Neutral', 'Neutral'),
-                       ('Depressed', 'Depressed'),
-                       ('Angry', 'Angry')
+                       
+    emotion_choices = {('쾌활', 'Cheerful'),
+                       ('기쁨', 'Happy'),
+                       ('보통', 'Neutral'),
+                       ('우울', 'Depressed'),
+                       ('화남', 'Angry')
                        }
 
     Weather = models.CharField(max_length=20, choices=weather_choices, null=True)
