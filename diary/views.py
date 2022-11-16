@@ -218,7 +218,7 @@ def memory_new(request):
             
             # return redirect(f"/diary/{memory.pk}/")
             # return redirect(memory.get_absolute_url())
-            openai.api_key = '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'
+            openai.api_key = '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'
 
             #함수
             response = openai.Image.create(
@@ -425,10 +425,11 @@ def image_extraction(request):
     return redirect('http://localhost:8000/diary/select/')
 
 import urllib.request
-    
+from pathlib import Path
 
 def select(request):
     image_qs = ImageFields.objects.values().order_by('-id')[0]
+
     print('='*10)
     print(image_qs)
     print('='*10)
@@ -438,8 +439,12 @@ def select(request):
 
         url = request.POST['finImg']
         filename = f'{number}.jpg'
-        path = f'do_it_django_prj/images/{filename}'
-        urllib.request.urlretrieve(url, path)
+        image_path = f'do_it_django_prj/static/dalle/{filename}'
+
+        path = Path(image_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+
+        urllib.request.urlretrieve(url, image_path)
 
         # resource = urllib.request.urlopen(url)
         # output = open(filename,"wb")
@@ -450,7 +455,7 @@ def select(request):
 #        form = ImgForm(request.POST)
 #        form.save()
 
-        return redirect('http://localhost:8000/diary/gallery/')
+        return redirect(f'/diary/{number}/')
     else:
         form = MemoryForm()
 

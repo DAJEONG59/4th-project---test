@@ -40,9 +40,10 @@
             {% comment %} {% for keyword in keywords_list %} {% endcomment %}
 
               {% if p.pk %}
-              <a href="http://localhost:8000/diary/{{ p.pk }}/"><img src="C:Users\euclid_edu23\workspace\1116\project_sh\do_it_django_prj\images\{{ p.pk }}.jpg" height="225" width="400"/></svg></a>
+              <a href="/diary/{{ p.pk }}/">
+                <img src="/static/dalle/{{ p.pk }}.jpg" height="225" width="400"/></svg></a>
               {% else %}
-              <a href="http://localhost:8000/diary/{{ p.pk }}/"><svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+              <a href="/diary/{{ p.pk }}/"><svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
               </a>
               {% endif %}
             {% comment %} {% endfor %} {% endcomment %}

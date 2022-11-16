@@ -8,3 +8,4 @@ ngrok.exe
 _media/
 *.log
 py-hanspell
+/static/

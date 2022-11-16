@@ -8,17 +8,6 @@ from urllib.parse import urlparse
 
 
 class Memory(models.Model):
-    # head_image = models.ImageField(upload_to='blog/images/%Y/%m/%d/', blank=True)
-
-    # keywords = models.CharField()
-
-
-    # url1 = models.CharField()
-    # url2 = models.CharField()
-    # url3 = models.CharField()
-    # url4 = models.CharField()
-    
-
 
     content = models.TextField(max_length=1000)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -61,7 +50,6 @@ class Memory(models.Model):
 
 
 class KeywordPost(models.Model):
-    # head_image = models.ImageField(upload_to='blog/images/%Y/%m/%d/', blank=True)
     weather_choices = {('Sunny', 'Sunny'),
                        ('Cloudy', 'Cloudy'),
                        ('Rainy', 'Rainy'),

@@ -151,7 +151,7 @@
         <div class="input-group mb-3">
   <label class="input-group-text" for="drawing_choices">화풍</label>
   <select class="form-select" id="drawing_choices" name ="Drawing">
-    <option  value="디지털 아트" {% if form.instance.pk %}{% if form.instance.Drawing == "디지털 아트" %}selected{% endif %}{% endif %}> 디지털 아트</option>
+    <option value="디지털 아트" {% if form.instance.pk %}{% if form.instance.Drawing == "디지털 아트" %}selected{% endif %}{% endif %}> 디지털 아트</option>
     <option value="요즘 스타일" {% if form.instance.pk %}{% if form.instance.Drawing == "MZ세대 스타일" %}selected{% endif %}{% endif %}> MZ세대 스타일</option>
     <option value="유화"{% if form.instance.pk %}{% if form.instance.Drawing == "유화" %}selected{% endif %}{% endif %}>유화</option>
     <option value="스케치"{% if form.instance.pk %}{% if form.instance.Drawing == "스케치" %}selected{% endif %}{% endif %}>스케치</option>
@@ -182,61 +182,7 @@
                               <input type="submit" class="btn btn-primary btn-lg" value="수정" />
                             {% endif %}
                         </span>
-                        <button
-      type="button"
-      class="btn btn-primary btn-lg"
-      data-bs-toggle="modal"
-      data-bs-target="#goModal"
-      data-bs-whatever=""
-    >
-      직접 생성
-    </button>
-
-    <div
-      class="modal fade"
-      id="goModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      style="display: none"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">
-             직접 생성
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form action="" method="post" novalidate>
-              <div class="mb-3">
-                <label for="content" class="col-form-label">원하는 그림을 한 문장으로 작성해주세요. </label>
-                  <div class="form-floating">
-                  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                  <label for="floatingTextarea2">20자 이내</label>
-                  </div>
-
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              닫기
-            </button>
-              <input type="submit" class="btn btn-primary" value="그림 생성" />
-            </div>
-        </div>
-    </div>
+                        
 </section>
 
     </form>

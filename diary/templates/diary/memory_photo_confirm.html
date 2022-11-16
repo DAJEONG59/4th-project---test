@@ -101,6 +101,7 @@
 
           <!-- 2 Modal -->
           <form action="" method="post">
+            <input type='hidden' name='finImg' value="{{ image_list.url2 }}" />
             {% csrf_token %}
           <div
             class="modal fade"
@@ -170,6 +171,7 @@
           </button>
           <!-- 3Modal -->
           <form action="" method="post">
+            <input type='hidden' name='finImg' value="{{ image_list.url3 }}" />
             {% csrf_token %}
           <div
             class="modal fade"
@@ -238,6 +240,7 @@
           </button>
           <!-- Modal -->
           <form action="" method="post">
+            <input type='hidden' name='finImg' value="{{ image_list.url4 }}" />
             {% csrf_token %}
           <div
             class="modal fade"
