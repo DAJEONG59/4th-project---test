@@ -494,7 +494,7 @@ def memory_delete(request, pk):
     if request.method == "POST":
         memory.delete()
         messages.success(request, "일기를 삭제했습니다.")
-        return redirect("/diary/")
+        return redirect("/diary/gallery/")
 
     return render(request, "diary/memory_confirm_delete.html", {
         "memory": memory,
