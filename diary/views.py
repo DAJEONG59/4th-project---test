@@ -84,12 +84,122 @@ def memory_new(request):
         if form.is_valid():
             # form.cleaned_data
             form.save()
+            conn = pymysql.connect(host='localhost', user='root', password='1234', db='project_test2')
+            start = time.time()
+
+            try:
+                with conn.cursor() as curs:
+                    sql = "SELECT * FROM diary_memory ORDER BY created_at DESC"
+                    curs.execute(sql) # 실행할 쿼리분 넣기
+                    rs = curs.fetchall() #sql문 실행해서 데이터 가져오기
+                    # print(rs)  # 쿼리문 출력해보기
+                    main_cont = rs[0][1]
+                    drawing = rs[0][4]
+                    emotion = rs[0][5]
+
+            finally:
+                conn.close()
+
             
+
+                main_cont_300 = main_cont[:301]
+                spelled_cont = spell_checker.check(u'{}'.format(main_cont_300)).as_dict()['checked']
+                print(spelled_cont)
+                print('='*10)
+                # 2) 키워드 추출
+                okt = Okt()
+
+                tokenized_doc = okt.pos(spelled_cont)
+                # print(tokenized_doc)
+
+                # print('m')
+                # print([word for word in tokenized_doc])
+
+                # print([word[0] for word in tokenized_doc if word[1] == 'Noun'])
+                # print('m')
+                tokenized_nouns = ' '.join([word[0] for word in tokenized_doc if word[1] == 'Noun'])
+
+                # print('품사 태깅 10개만 출력 :',tokenized_doc[:10])
+                # print('명사 추출 :',tokenized_nouns)
+
+
+                # 단어 합치기
+                n_gram_range = (2, 3)
+
+                count = CountVectorizer(ngram_range=n_gram_range).fit([tokenized_nouns])
+                candidates = count.get_feature_names_out()
+
+                # print('trigram 개수 :',len(candidates))
+                # print('trigram 다섯개만 출력 :',candidates[:4])
+
+
+                # 유사 키워드 추출
+                model = SentenceTransformer('sentence-transformers/xlm-r-100langs-bert-base-nli-stsb-mean-tokens')
+                doc_embedding = model.encode([main_cont])
+                candidate_embeddings = model.encode(candidates)
+
+                top_n = 4
+                distances = cosine_similarity(doc_embedding, candidate_embeddings)
+                keywords = [candidates[index] for index in distances.argsort()[0][-top_n:]]
+                print(keywords)
+
+
+                # 후보 간 유사성 최소화
+                def max_sum_sim(doc_embedding, candidate_embeddings, words, top_n, nr_candidates):
+                    # 문서와 각 키워드들 간의 유사도
+                    distances = cosine_similarity(doc_embedding, candidate_embeddings)
+
+                    # 각 키워드들 간의 유사도
+                    distances_candidates = cosine_similarity(candidate_embeddings,
+                                                            candidate_embeddings)
+
+                    # 코사인 유사도에 기반하여 키워드들 중 상위 top_n개의 단어를 pick.
+                    words_idx = list(distances.argsort()[0][-nr_candidates:])
+                    words_vals = [candidates[index] for index in words_idx]
+                    distances_candidates = distances_candidates[np.ix_(words_idx, words_idx)]
+
+                    # 각 키워드들 중에서 가장 덜 유사한 키워드들간의 조합을 계산
+                    min_sim = np.inf
+                    candidate = None
+                    for combination in itertools.combinations(range(len(words_idx)), top_n):
+                        sim = sum([distances_candidates[i][j] for i in combination for j in combination if i != j])
+                        if sim < min_sim:
+                            candidate = combination
+                            min_sim = sim
+
+                    return [words_vals[idx] for idx in candidate]
+
+
+                fin_keyword = max_sum_sim(doc_embedding, candidate_embeddings, candidates, top_n=top_n, nr_candidates=30)
+                kor_keywords = ', '.join([word for word in fin_keyword])
+
+
+                # print(fin_keyword)
+                # print('키워드 추출 : ', end)
+
+                #번역 및 입력
+                translator = Translator()
+                eng_keywords = ', '.join([translator.translate(word, dest='en').text for word in fin_keyword])
+                # print(eng_keywords)
+                # print('번역 : ', start-time.time())
+
+                search_keyword = eng_keywords + ', ' + emotion + ', ' + drawing
+                print()
+                print('='*10)
+                print(f'마지막 키워드 : {kor_keywords}')
+                print(f'마지막 키워드 : {search_keyword}')
+                print('='*10)
+                print()
+                end = (time.time() - start)
+                print(end)
+
+                return redirect('/diary/select/')
+
+
             
             # return redirect(f"/diary/{memory.pk}/")
             # return redirect(memory.get_absolute_url())
 
-            return redirect('http://localhost:8000/diary/loading/')
     else:
         form = MemoryForm()
 
