@@ -101,7 +101,7 @@ def memory_new(request):
                        '유화': 'Oil and Canvas',
                        '스케치': 'Sketched',
                        '인상주의': 'Impressionism',
-                       'MZ세대 스타일':'Vaper Wave',
+                       'MZ세대 스타일':'VaperWave',
                     }
                     sql = "SELECT * FROM diary_memory ORDER BY created_at DESC"
                     curs.execute(sql) # 실행할 쿼리분 넣기
@@ -218,7 +218,7 @@ def memory_new(request):
             
             # return redirect(f"/diary/{memory.pk}/")
             # return redirect(memory.get_absolute_url())
-            openai.api_key = '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'
+            openai.api_key = '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'
 
             #함수
             response = openai.Image.create(
@@ -360,7 +360,7 @@ def image_extraction(request):
         # print(eng_keywords)
         # print('번역 : ', start-time.time())
 
-        search_keyword = eng_keywords + ', ' + emotion + ', ' + drawing
+        search_keyword = eng_keywords + ', ' + emotion + ', in the style of ' + drawing
         print()
         print('='*10)
         print(f'마지막 키워드 : {kor_keywords}')
@@ -392,8 +392,8 @@ def image_extraction(request):
     print('end')
 
     # 3) 이미지 전환 및 추출
-    # token key
-    openai.api_key = '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'
+    # token keys
+    openai.api_key = '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'
 
     #함수
     response = openai.Image.create(
