@@ -6,7 +6,8 @@ class MemoryForm(forms.ModelForm):
     class Meta:
         model = Memory
         # fields = "__all__"
-        fields = ["content", "Weather", "Drawing", "Emotion"]
+        fields = ["content_long", "Weather", "Drawing", "Emotion"]
+
 
 class KeywordForm(forms.ModelForm):
     class Meta:

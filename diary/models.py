@@ -9,7 +9,8 @@ from urllib.parse import urlparse
 
 class Memory(models.Model):
 
-    content = models.TextField(max_length=1000)
+    content_long = models.TextField(max_length=1000)
+    content_short = models.TextField(max_length=50, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -43,6 +44,7 @@ class Memory(models.Model):
 
     def get_absolute_url(self):
         return f"/diary/{self.pk}/"
+
 
     class Meta:
         # 쿼리셋에서 order_by를 지정하지 않았을 때, 사용되는 기본 정렬

@@ -12,7 +12,8 @@ tzdata               ==2022.6
 wheel                ==0.38.4
 pymysql              ==1.0.2
 
-py-hanspell==1.1 
+
+
 googletrans==4.0.0rc1
 konlpy==0.6.0
 
