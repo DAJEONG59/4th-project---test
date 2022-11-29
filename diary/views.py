@@ -514,7 +514,7 @@ def info(request):
 
 # 상세페이지
 def k_detail_page(request, pk):
-    keyword_memory = KeywordPost.objects.get(pk=pk)
+    keyword_memory = Memory.objects.get(pk=pk)
     return render(request, "diary/keyword_detail.html", {
         "keyword_post": keyword_memory,
     })
@@ -532,7 +532,8 @@ def keyword_new(request):
             messages.success(request, "일기를 생성했습니다.")
             # return redirect(f"/diary/{memory.pk}/")
             # return redirect(memory.get_absolute_url())
-            return redirect(memory)
+            # return redirect(memory)
+            return redirect('/diary/select/')
     else:
         form = KeywordForm()
 
@@ -556,7 +557,7 @@ def key_edit(request, pk):
     else:
         form = MemoryForm(instance=memory)
 
-    return render(request, "diary/memory_form.html", {
+    return render(request, "diary/keyword_form.html", {
         "form": form,
     })
 

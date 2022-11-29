@@ -9,10 +9,13 @@ class MemoryForm(forms.ModelForm):
         fields = ["content_long", "Weather", "Drawing", "Emotion"]
 
 
+      
+
+
 class KeywordForm(forms.ModelForm):
     class Meta:
-        model = KeywordPost
-        fields = "__all__"
+        model = Memory
+        fields = ["content_short", "Weather", "Drawing", "Emotion"]
 
 
 class ImgForm(forms.ModelForm):
