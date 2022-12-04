@@ -48,6 +48,7 @@ a:active {
                 {{ form.errors }}
               </div>
             {% endif %}
+
                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
       <input type="radio" class="btn-check" name="Weather" id="Sunny" autocomplete="off" value="맑음" checked=""{% if form.instance.pk %}{% if form.instance.Weather == "맑음" %} checked="" {% endif %}{% endif %}>
       <label class="btn btn-outline-danger" for="Sunny"> <span class="form-selectgroup-label"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
@@ -177,8 +178,34 @@ a:active {
 </div>
                 <div class="form-group" data-for="message">
                     <label class="form-control-label mbr-fonts-style display-7" for="content_short" style="font-size:20px;">
-                      <b> 음성으로 일기 내용 입력 </b> </label> &nbsp;&nbsp;&nbsp; <button id="speech" onclick="speech_to_text()" type="button">음성으로 텍스트 입력</button>
-                      <button id="stop" onclick="stop()"type="button" >멈추기</button>
+                      <b> 음성으로 일기 내용 입력 </b> </label> &nbsp;&nbsp;&nbsp; 
+                      <button id="stt-start-button" class="btn btn-secondary" type="button"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-microphone" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <rect x="9" y="2" width="6" height="11" rx="3"></rect>
+                        <path d="M5 10a7 7 0 0 0 14 0"></path>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                     </svg>&nbsp;&nbsp;음성인식 시작 </button>
+                
+                    <button id="stt-stop-button" class="btn btn-secondary d-none" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-microphone" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <rect x="9" y="2" width="6" height="11" rx="3"></rect>
+                            <path d="M5 10a7 7 0 0 0 14 0"></path>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                         </svg>
+                        
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-antenna-bars-3" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <line x1="6" y1="18" x2="6" y2="15"></line>
+                        <line x1="10" y1="18" x2="10" y2="12"></line>
+                        <line x1="14" y1="18" x2="14" y2="18.01"></line>
+                        <line x1="18" y1="18" x2="18" y2="18.01"></line>
+                     </svg>
+                        
+                        &nbsp;&nbsp; 중지하기 </button>
                       <br/> <p id="message">버튼을 누르고 말씀하세요.</p> 
                             <br/>
                             
@@ -236,96 +263,60 @@ a:active {
 
 // STT 
 
+    const stt_start_button = document.querySelector("#stt-start-button");
+    const stt_stop_button = document.querySelector("#stt-stop-button");
 
-  var sttform = document.getElementById("sttform");            
-  var textarea = document.getElementById('textarea');
-  var title = document.getElementById('textarea');
-  var message = document.querySelector("#message");
-  var button = document.querySelector("#speech");
-  var korea = document.querySelector("#korea");
-  var english = document.querySelector("#english");
-  var isRecognizing = false;
-if ('SpeechRecognition' in window) {
- // Speech recognition support. Talk to your apps!
- console.log("음성인식을 지원하는 브라우저입니다.")
-}
+    var message = document.querySelector("#message");
+    const stt_form = document.querySelector("#memory-form");
+    const content_field = document.querySelector('#memory-form [name=content_short]');
+    let content_field_value = "";  // STT 재시작시마다 results 값이 초기화됩니다.
 
-try {
-   var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
-} catch(e){
-   console.error(e);
-}
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const speech_recognition = new SpeechRecognition();
+    speech_recognition.lang = "ko-kr";
+    speech_recognition.continuous = true;
 
-recognition.lang = 'ko-KR'; //선택하게 해줘야 할듯 .
-recognition.interimResults = false;
-recognition.maxAlternatives = 5;
-//recognition.continuous = true;
+    function enable_stt() {
+        content_field_value = content_field.value;
 
+        speech_recognition.start();
+        message.innerHTML = "음성인식 중...";
+        stt_start_button.classList.toggle("d-none");
+        stt_stop_button.classList.toggle("d-none");
+    }
 
-function speech_to_text(){
-  
-   recognition.start();
-   korea.innerHTML='말씀하세요...'
-   isRecognizing = true;
+    function disable_stt() {
+        speech_recognition.stop();
+        message.innerHTML = "버튼을 누르고 말씀하세요.";
+        stt_start_button.classList.toggle("d-none");
+        stt_stop_button.classList.toggle("d-none");
+    }
 
-  recognition.onstart = function(){
-       console.log("음성인식이 시작 되었습니다. 이제 마이크에 무슨 말이든 하세요.")
-       message.innerHTML = "음성인식 시작...";
-       button.innerHTML = "듣는 중...";
-       button.disabled = true;
-   }
-  
+    // stt_start_button이 <form> 안에 있다면 submit 동작을 가지게 됩니다.
+    // 그런데 다른 STT동작을 해야지, form submit을 해서는 안 되는 것이잖아요.
+    // 아래 click handler에서 e.preventDefault(); 를 호출하여 원래 동작(form submit)을 안하게 하든지.
+    // stt_start_button은 <form> 외부로 빼시는 것이 낫습니다.
+    stt_start_button.addEventListener("click", () => { enable_stt(); });
+    stt_stop_button.addEventListener("click", () => { disable_stt(); });
 
-  recognition.onspeechend = function(){
-       message.innerHTML = "버튼을 누르고 아무말이나 하세요.";
-       button.disabled = false;
-       button.innerHTML = "음성으로 텍스트 입력";
-   }
+    speech_recognition.onresult = function (e) {
+        console.log(e.results);
+        // disable_stt();
 
-  recognition.onresult = function(event) {
-       console.log('You said: ', event.results[0][0].transcript);
-       // 결과를 출력
-       var resText = event.results[0][0].transcript;
-       korea.innerHTML = resText;
+        // 매 result 반환 시마다 e.results의 개수가 늘어납니다.
+        const transcript = Array.from(e.results)
+            .map(result => result[0])
+            .map(speech => speech.transcript)
+            .join(' ');
 
-      //text to sppech
-       text_to_speech(resText);
-      
-   };
+        console.log("transcript :", transcript);
+        content_field.value = content_field_value + " " + transcript;
+    };
 
-  recognition.onend = function(){
-       message.innerHTML = "버튼을 누르고 아무말이나 하세요.";
-       button.disabled = false;
-       button.innerHTML = "음성으로 텍스트 입력";
-       isRecognizing = false;
-
-  }
-}
-
-function stop(){
-   recognition.stop();
-   message.innerHTML = "버튼을 누르고 아무말이나 하세요.";
-   button.disabled = false;
-   button.innerHTML = "Start STT";
-   isRecognizing = false;
-}
-
-
-
-// Text to speech
-function text_to_speech(txt){
-   // Web Speech API - speech synthesis
-   
-
-  msg.onend = function(e) {
-       if(isRecognizing == false){
-           recognition.start();   
-       }
-         console.log('Finished in ' + event.elapsedTime + ' seconds.');
-   };
-   window.speechSynthesis.speak(msg);
-}
-
+    speech_recognition.onerror = function (e) {
+        console.error(e);
+        disable_stt();
+    };
 
 
 
