@@ -20,8 +20,10 @@ a:active {
 }
 </style>
 <div class ="container" style="font-family: 'MaruBuri-Regular'";>
+
+
     <div class ="row">
-        <div class ="col-12">
+      <div class ="col-12">
     <form action="" method="post" id="memory-form">
         {% csrf_token %}
         <section class="mbr-section form1 cid-qv5ApHdm7c mbr-parallax-background" id="form1-4t" data-rv-view="10803">
@@ -174,14 +176,20 @@ a:active {
 {{ form.content_short.errors }}
 </div>
                 <div class="form-group" data-for="message">
-                    <label class="form-control-label mbr-fonts-style display-7" for="content_short" style="font-size:20px;"><b> 음성으로 일기 내용 입력 </b></label><br/>
-                            <br/><textarea type="text"
+                    <label class="form-control-label mbr-fonts-style display-7" for="content_short" style="font-size:20px;">
+                      <b> 음성으로 일기 내용 입력 </b> </label> &nbsp;&nbsp;&nbsp; <button id="speech" onclick="speech_to_text()" type="button">음성으로 텍스트 입력</button>
+                      <button id="stop" onclick="stop()"type="button" >멈추기</button>
+                      <br/> <p id="message">버튼을 누르고 말씀하세요.</p> 
+                            <br/>
+                            
+                            
+                            <textarea type="text"
                                       class="form-control"
                                       name="content_short"
                                       rows="6"
                                       data-form-field="Message"
                                       maxlength="50"
-                                      id="content_short"
+                                      id="korea"
                             style="border: 4px solid rgb(255, 145, 130);
                               border-radius: 8px;
                               background-color: #f8f8f8;
@@ -189,7 +197,7 @@ a:active {
                               padding: 5px 5px;
                               font-size: 30px;
                               resize: none;font-family: 'KyoboHandwriting2020A';" required
-                            >{% if form.instance.pk %}{{ form.instance.content_long}}{% endif %}</textarea>
+                            >{% if form.instance.pk %}{{ form.instance.content_short}}{% endif %}</textarea>
                         </div>
                     <div class="container">
                         <div class="col-12">
@@ -215,7 +223,7 @@ a:active {
 
 {# memory-form submit 이벤트 핸들러 #}
 
-<script>
+<script type="text/javascript">
   document.querySelector("#memory-form").addEventListener("submit", function(e) {
     // e.preventDefault();
     const is_edit_mode = e.submitter.value === "저장";
@@ -224,6 +232,106 @@ a:active {
       loadingModal.show();
     }
   });
+
+
+// STT 
+
+
+  var sttform = document.getElementById("sttform");            
+  var textarea = document.getElementById('textarea');
+  var title = document.getElementById('textarea');
+  var message = document.querySelector("#message");
+  var button = document.querySelector("#speech");
+  var korea = document.querySelector("#korea");
+  var english = document.querySelector("#english");
+  var isRecognizing = false;
+if ('SpeechRecognition' in window) {
+ // Speech recognition support. Talk to your apps!
+ console.log("음성인식을 지원하는 브라우저입니다.")
+}
+
+try {
+   var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+} catch(e){
+   console.error(e);
+}
+
+recognition.lang = 'ko-KR'; //선택하게 해줘야 할듯 .
+recognition.interimResults = false;
+recognition.maxAlternatives = 5;
+//recognition.continuous = true;
+
+
+function speech_to_text(){
+  
+   recognition.start();
+   korea.innerHTML='말씀하세요...'
+   isRecognizing = true;
+
+  recognition.onstart = function(){
+       console.log("음성인식이 시작 되었습니다. 이제 마이크에 무슨 말이든 하세요.")
+       message.innerHTML = "음성인식 시작...";
+       button.innerHTML = "듣는 중...";
+       button.disabled = true;
+   }
+  
+
+  recognition.onspeechend = function(){
+       message.innerHTML = "버튼을 누르고 아무말이나 하세요.";
+       button.disabled = false;
+       button.innerHTML = "음성으로 텍스트 입력";
+   }
+
+  recognition.onresult = function(event) {
+       console.log('You said: ', event.results[0][0].transcript);
+       // 결과를 출력
+       var resText = event.results[0][0].transcript;
+       korea.innerHTML = resText;
+
+      //text to sppech
+       text_to_speech(resText);
+      
+   };
+
+  recognition.onend = function(){
+       message.innerHTML = "버튼을 누르고 아무말이나 하세요.";
+       button.disabled = false;
+       button.innerHTML = "음성으로 텍스트 입력";
+       isRecognizing = false;
+
+  }
+}
+
+function stop(){
+   recognition.stop();
+   message.innerHTML = "버튼을 누르고 아무말이나 하세요.";
+   button.disabled = false;
+   button.innerHTML = "Start STT";
+   isRecognizing = false;
+}
+
+
+
+// Text to speech
+function text_to_speech(txt){
+   // Web Speech API - speech synthesis
+   
+
+  msg.onend = function(e) {
+       if(isRecognizing == false){
+           recognition.start();   
+       }
+         console.log('Finished in ' + event.elapsedTime + ' seconds.');
+   };
+   window.speechSynthesis.speak(msg);
+}
+
+
+
+
+
+
+
 </script>
 
 <!-- Modal -->
