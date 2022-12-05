@@ -48,17 +48,20 @@
     <!-- End of card -->
     <hr />
 
-    <a class="btn btn-danger" href="/diary/{{ memory.pk }}/edit/" role="button" style="font-family: 'MaruBuri-Regular'";
-      ><b>수정</b></a
-    >
+    <a class="btn btn-danger" 
+    style="font-family: 'MaruBuri-Regular'";
+    {% if form.instance.pk %}
+    {% if memory.content_long%}href="/diary/{{ memory.pk }}/edit/"{% else %}href="diary/keyword/<int:pk>/edit/"
+    {% endif%}{% endif %} <b>수정</b>
+      </a>
     <a
       class="btn btn-danger"
       href="/diary/{{ memory.pk }}/delete/"
       role="button" style="font-family: 'MaruBuri-Regular'";
-      ><b>삭제</b></a
+      <b>삭제</b></a
     >
     <a class="btn btn-danger" href="/diary/gallery/" role="button" style="font-family: 'MaruBuri-Regular'";
-      ><b>갤러리로 가기</b></a
+      <b>갤러리로 가기</b></a
     >
   </div>
 </div>
